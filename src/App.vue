@@ -36,6 +36,10 @@
           <el-icon><Switch /></el-icon>
           <span>乒乓切换</span>
         </el-menu-item>
+        <el-menu-item index="/network-data-process">
+          <el-icon><Connection /></el-icon>
+          <span>网络数据处理</span>
+        </el-menu-item>
         <el-menu-item index="/network-optim-assistant">
           <el-icon><Avatar /></el-icon>
           <span>乒乓切换优化</span>
@@ -91,7 +95,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { Upload, Download, Service, Message, Search, Document, Avatar } from '@element-plus/icons-vue'
+import { Upload, Download, Service, Message, Search, Document, Avatar, Connection } from '@element-plus/icons-vue'
 
 const searchQuery = ref('')
 const route = useRoute()
@@ -108,6 +112,10 @@ const activeRoute = computed(() => route.path)
 
 .main-container {
   height: 100vh;
+}
+
+.el-main{
+  --el-main-padding: 15px;
 }
 
 .el-container{

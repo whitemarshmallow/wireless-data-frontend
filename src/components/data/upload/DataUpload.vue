@@ -107,9 +107,9 @@ import { ElMessage } from 'element-plus'
 
 // const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
 
-// const baseUrl = 'http://172.20.10.3:9090'
+const baseUrl = 'http://172.20.10.3:9090'
 
-const baseUrl = 'http://172.30.130.165:9090'
+// const baseUrl = 'http://172.30.130.165:9090'
 
 const uploadUrl = ref(`${baseUrl}/api/json/uploadJsonFile`) // 默认值，会被 beforeUpload 修改
 

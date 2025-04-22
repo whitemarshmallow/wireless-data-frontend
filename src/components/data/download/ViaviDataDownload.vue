@@ -1,12 +1,12 @@
 <template>
-  <el-card class="download-container">
+  <el-card class="download-container" :class="{'in-chat-mode': inChatMode}">
     <template #header>
       <div class="card-header">
         <span>仿真数据下载</span>
       </div>
     </template>
 
-    <el-form :model="downloadForm" label-width="120px">
+    <el-form :model="downloadForm" label-width="75px">
       <el-form-item label="主类别">
         <el-select 
           v-model="downloadForm.mainCategory"
@@ -48,6 +48,14 @@
             placeholder="请输入结束时间"  clearable/>
           </el-col>
         </el-row>
+        <el-alert
+          title="范围示例：1739505002000 至 1739505459000，单位：ms"
+          type="info"
+          :closable="false"
+          show-icon
+          size="small"
+          style="margin-top: 8px;"
+        />
       </el-form-item>
 
 
@@ -74,8 +82,25 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed,defineEmits,defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
+
+// const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
+
+//研究院IP
+
+  // const baseUrl = "http://172.30.130.46:9090";
+
+//我的热点
+
+  const baseUrl = "http://172.20.10.3:9090";
+
+defineProps({
+  inChatMode:{
+    type:Boolean,
+    default:false
+  }
+})
 
 const categoryMap = {
   'urban_converage':['信号质量测量','吞吐','位置信息','场景配置信息'],
@@ -112,6 +137,7 @@ const handleMainCategoryChange = () => {
   showTimeRange.value = true
 }
 
+const emit=defineEmits(['download-completed']);
 
 const handleDownload = async () => {
   // 验证表单
@@ -143,7 +169,7 @@ const handleDownload = async () => {
   
 
   try {
-    const response = await fetch('http://172.30.130.165:9090/api/download-viaviData', {
+    const response = await fetch(`${baseUrl}/api/download-viaviData`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -169,6 +195,9 @@ const handleDownload = async () => {
       success: true,
       message: '数据下载成功'
     }
+
+    //添加触发下载完成事件
+    emit('download-completed',downloadForm)
   } catch (error) {
     downloadResult.value = {
       success: false,
@@ -191,5 +220,15 @@ const handleDownload = async () => {
 .text-center{
   text-align: center;
   line-height: 32px;
+}
+
+.download-container.in-chat-mode {
+  width: 550px;
+  margin: 0;
+  box-shadow: none;
+}
+
+.el-form-item__label{
+  justify-content: left;
 }
 </style>

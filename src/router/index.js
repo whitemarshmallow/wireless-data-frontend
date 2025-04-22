@@ -1,17 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 // 导入组件
-import DataUpload from "../components/DataUpload.vue";
-import DataDownload from "../components/DataDownload.vue";
-import ViaviDataDownload from "../components/ViaviDataDownload.vue";
-import NetworkOptimization from "../components/NetworkOptimization.vue";
-import PingpongSwitch from "../components/PingpongSwitch.vue";
-import NetworkOptimAssistant from "../components/NetworkOptimAssistant.vue";
-import LLMDataSearch from "../components/LLMDataSearch.vue";
-import BeamRawData from "../components/BeamRawData.vue";
-import BeamCompoundData from "../components/BeamCompoundData.vue";
-import ServiceComponent from "../components/ServiceComponent.vue";
-import ContactUs from "../components/ContactUs.vue";
+import DataUpload from "../components/data/upload/DataUpload.vue";
+import DataDownload from "../components/data/download/DataDownload.vue";
+import ViaviDataDownload from "../components/data/download/ViaviDataDownload.vue";
+import NetworkOptimization from "../components/network/optimization/NetworkOptimization.vue";
+import PingpongSwitch from "../components/network/optimization/PingpongSwitch.vue";
+import NetworkDataProcess from "@/components/network/assistant/NetworkDataProcess.vue";
+import NetworkOptimAssistant from "../components/network/assistant/NetworkOptimAssistant.vue";
+import LLMDataSearch from "../components/data/search/LLMDataSearch.vue";
+import BeamRawData from "../components/beam/BeamRawData.vue";
+import BeamCompoundData from "../components/beam/BeamCompoundData.vue";
+import ServiceComponent from "../components/service/ServiceComponent.vue";
+import ContactUs from "../components/service/ContactUs.vue";
 
 const routes = [
   {
@@ -42,6 +43,11 @@ const routes = [
     path: "/pingpong-switch",
     name: "PingpongSwitch",
     component: PingpongSwitch,
+  },
+  {
+    path: "/network-data-process",
+    name: "NetworkDataProcess",
+    component: NetworkDataProcess,
   },
   {
     path: "/network-optim-assistant",

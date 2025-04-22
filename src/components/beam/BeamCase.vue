@@ -2,7 +2,7 @@
   <div class="beam-container">
     <!-- Tab 切换部分 -->
     <el-tabs v-model="activeTab" class="mb-4">
-      <el-tab-pane label="波束空域数据合成" name="airspace">
+      <el-tab-pane label="波束空域" name="airspace">
         <!-- 空域案例内容 -->
         <div class="upload-container">
           <el-card class="mb-4">
@@ -58,7 +58,7 @@
         </div>
       </el-tab-pane>
 
-      <el-tab-pane label="波束时域数据合成" name="time">
+      <el-tab-pane label="波束时域" name="time">
         <div class="upload-container">
           <el-card class="mb-4">
             <template #header>
@@ -120,15 +120,23 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 
+//芷涵热点IP
 // const baseUrl = 'http://192.168.43.139:9090'
 
-// const baseUrl = 'http://172.20.10.3:9090'
+//本机IP
+// const baseUrl = 'http://localhost:9090'
 
-const baseUrl = 'http://172.30.130.165:9090'
+//我的热点IP
+const baseUrl ='http://172.20.10.3:9090'
+
+//研究院wifi IP,每次关机会换
+
+// const baseUrl ='http://172.30.130.141:9090'
+
 
 // 上传 URL
-const airspaceUploadUrl = `${baseUrl}/api/beam/airspace/compound-data`
-const timeUploadUrl = `${baseUrl}/api/beam/time/compound-data`
+const airspaceUploadUrl = `${baseUrl}/api/beam/airspace/process-data`
+const timeUploadUrl = `${baseUrl}/api/beam/time/process-data`
 
 // Tab 激活状态
 const activeTab = ref('airspace')
@@ -237,7 +245,7 @@ const handleTimeDownload = async () => {
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `beam_time_compound_data.${timeUploadForm.outputFormat}`
+      a.download = `beam_time_data.${timeUploadForm.outputFormat}`
       
       document.body.appendChild(a)
       a.click()
@@ -269,4 +277,3 @@ const handleTimeDownload = async () => {
   margin-top: 12px;
 }
 </style>
-

@@ -1,12 +1,12 @@
 <template>
-  <el-card class="download-container">
+  <el-card class="download-container" :class="{'in-chat-mode': inChatMode}">
     <template #header>
       <div class="card-header">
         <span>数据下载</span>
       </div>
     </template>
 
-    <el-form :model="downloadForm" label-width="120px">
+    <el-form :model="downloadForm" label-width="75px">
       <el-form-item label="主类别">
         <el-select 
           v-model="downloadForm.mainCategory"
@@ -84,8 +84,25 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed,defineEmits,defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
+
+// const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
+
+//研究院IP
+
+// const baseUrl = "http://172.30.130.46:9090";
+
+//我的热点
+
+const baseUrl = "http://172.20.10.3:9090";
+
+defineProps({
+  inChatMode: {
+    type: Boolean,
+    default: false
+  }
+});
 
 const categoryMap = {
   'mobility_management': ['无线资源控制和无线接入承载', '切换管理', '数据传输与吞吐量', '信道质量与资源分配', '用户流量与服务性能'],
@@ -145,6 +162,8 @@ const handleModelTypeChange = () => {
   showDataTypes.value = true
 }
 
+const emit=defineEmits(['download-completed']);
+
 const handleDownload = async () => {
   // 验证表单
   if (!downloadForm.mainCategory) {
@@ -165,7 +184,7 @@ const handleDownload = async () => {
   }
 
   try {
-    const response = await fetch('http://172.30.130.165:9090/api/download-data', {
+    const response = await fetch(`${baseUrl}/api/download-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -191,6 +210,9 @@ const handleDownload = async () => {
       success: true,
       message: '数据下载成功'
     }
+
+    //添加触发下载完成事件
+    emit('download-completed',downloadForm)
   } catch (error) {
     downloadResult.value = {
       success: false,
@@ -208,5 +230,15 @@ const handleDownload = async () => {
 
 .download-result {
   margin-top: 20px;
+}
+
+.download-container.in-chat-mode {
+  width: 550px;
+  margin: 0;
+  box-shadow: none;
+}
+
+.el-form-item__label{
+  justify-content: left;
 }
 </style>
