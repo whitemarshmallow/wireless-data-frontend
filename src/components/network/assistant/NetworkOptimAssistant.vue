@@ -56,6 +56,7 @@
                 <component 
                   :is="getComponentByType(message.componentType)" 
                   v-bind="message.componentProps || {}"
+                  @download-completed="handleDownloadCompleted"
                 />
               </div>
             </div>
@@ -110,16 +111,11 @@ import ScenarioSelector from '../selectors/ScenarioSelector.vue';
 import ImageSelector from '../selectors/ImageSelector.vue';
 import ModelSelector from '../selectors/ModelSelector.vue';
 import { useNetworkDataProcessStore,emitter } from '../../../store/networkDataProcessStore';
+import { getApiUrl } from '../../../utils/api';
 
-// const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
-
-//研究院wifi IP
-
-// const baseUrl ='http://172.30.130.165:9090'
-
-//我的热点
-
-const baseUrl ='http://172.20.10.3:9090'
+// 如需自定义基础 URL，取消注释下面这一行并修改
+const baseUrl = null  // 使用全局配置
+// const baseUrl = 'http://....'  // 自定义 URL
 
 // 获取store
 const store = useNetworkDataProcessStore();
@@ -264,6 +260,10 @@ const typewritterEffect = (text, index, field = 'content') => {
   });
 };
 
+const handleDownloadCompleted = (params) => {
+  store.completeDownload(params);
+};
+
 //公共消息处理
 const processAssistantResponse=async(data,skipThinking=false)=>{
   //添加空消息
@@ -291,10 +291,24 @@ const processAssistantResponse=async(data,skipThinking=false)=>{
     await nextTick()
   }
 
+  // 构建完整回复内容
+  let fullReply='';
+  // 添加大模型回复（如果有）
+  if(data.largemodel&&!cancelRequested.value){
+    fullReply+='【大模型回复：】\n\n'+data.largemodel
+    if(data.smallmodel){
+      fullReply+='\n\n'
+    }
+  }
+  // 添加小模型回复（如果有）
+  if(data.smallmodel && !cancelRequested.value) {
+    fullReply+='【小模型回复：】\n\n'+data.smallmodel
+  }
+
   //应用打字机效果
   if(!requestCancel.value){
     typeActive.value=true
-    await typewritterEffect(data.reply||'分析完成',messageIndex,'content')
+    await typewritterEffect(fullReply||'分析完成',messageIndex,'content')
     typeActive.value=false
   }
   
@@ -367,7 +381,7 @@ const sendMessage = async () => {
       });
 
       // 所有思考阶段显示完毕，发送请求到后端
-      const response = await fetch(`${baseUrl}/api/assistant`, {
+      const response = await fetch(getApiUrl('/api/assistant', baseUrl), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -752,6 +766,7 @@ function parseMarkdownTable(tableText) {
   background-color: #f9f9fb;
   border-radius: 4px;
   border: 1px dashed #dcdfe6;
+  width: 570px;
 }
 
 /* 格式化的样式 */

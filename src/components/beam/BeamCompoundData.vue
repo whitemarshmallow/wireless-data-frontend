@@ -1,16 +1,62 @@
 <template>
   <div class="beam-container">
+    <!-- 半透明白色遮罩层 -->
+    <div class="page-overlay"></div>
+
+    <!-- 页面标题 -->
+    <h1 class="page-title">波束合成数据生成平台</h1>
+    
+    <!-- 页面介绍 -->
+    <div class="intro-section translucent-container">
+      <h2 class="section-title">功能介绍</h2>
+      <p class="description-text">
+        波束合成数据生成平台能够将原始波束数据进行高级处理与合成，生成用于信号分析与网络优化的综合性数据集。
+        本平台支持波束空域与时域数据的智能合成，能够根据用户需求生成高质量的合成数据，为无线网络优化与分析提供强大支持。
+      </p>
+    </div>
+
+    <!-- 处理优势 -->
+    <div class="features-section mb-5">
+      <div class="row">
+        <div class="col">
+          <div class="info-card">
+            <h3><i class="el-icon-data-line"></i> 智能合成</h3>
+            <p class="description-text">采用先进算法对多源波束数据进行智能合成，生成高质量综合数据集</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="info-card">
+            <h3><i class="el-icon-refresh"></i> 灵活配置</h3>
+            <p class="description-text">支持多种合成参数配置，满足不同场景下的数据生成需求</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="info-card">
+            <h3><i class="el-icon-document"></i> 多格式输出</h3>
+            <p class="description-text">可选择CSV或TXT等多种格式导出，便于后续分析处理</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Tab 切换部分 -->
-    <el-tabs v-model="activeTab" class="mb-4">
+    <el-tabs v-model="activeTab" class="custom-tabs mb-4">
       <el-tab-pane label="波束空域数据合成" name="airspace">
         <!-- 空域案例内容 -->
         <div class="upload-container">
-          <el-card class="mb-4">
+          <el-card class="mb-5">
             <template #header>
               <div class="card-header">
                 <span>文件上传</span>
               </div>
             </template>
+
+            <div class="card-description mb-4">
+              <p class="description-text">
+                波束空域数据合成支持对多个空域数据源进行融合与合成处理。
+                通过上传原始空域数据文件，系统将自动进行数据合成，生成综合性的空域数据集，适用于后续的信号分析与网络优化。
+              </p>
+            </div>
 
             <el-form :model="airspaceUploadForm" label-width="120px">
               <el-form-item label="选择文件">
@@ -55,17 +101,52 @@
               </el-button>
             </div>
           </el-card>
+          
+          <!-- 处理流程说明 -->
+          <div class="process-description translucent-container">
+            <h3 class="sub-section-title">合成流程</h3>
+            <div class="process-steps">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>数据上传</h4>
+                  <p>选择并上传原始波束空域数据文件</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>数据合成</h4>
+                  <p>系统自动进行数据融合与特征提取</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>结果导出</h4>
+                  <p>下载合成后的数据文件用于后续分析</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </el-tab-pane>
 
       <el-tab-pane label="波束时域数据合成" name="time">
         <div class="upload-container">
-          <el-card class="mb-4">
+          <el-card class="mb-5">
             <template #header>
               <div class="card-header">
                 <span>文件上传</span>
               </div>
             </template>
+
+            <div class="card-description mb-4">
+              <p class="description-text">
+                波束时域数据合成支持对时序信号数据进行高级处理与合成。
+                通过上传原始时域数据文件，系统将自动进行时序数据的合成与优化，生成高质量的时域综合数据集，便于后续的频谱分析与信号处理。
+              </p>
+            </div>
 
             <el-form :model="timeUploadForm" label-width="120px">
               <el-form-item label="选择文件">
@@ -110,29 +191,77 @@
               </el-button>
             </div>
           </el-card>
+          
+          <!-- 处理流程说明 -->
+          <div class="process-description translucent-container">
+            <h3 class="sub-section-title">合成流程</h3>
+            <div class="process-steps">
+              <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h4>数据上传</h4>
+                  <p>选择并上传原始波束时域数据文件</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h4>数据合成</h4>
+                  <p>系统自动进行时序数据的合成与优化</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h4>结果导出</h4>
+                  <p>下载合成后的数据文件用于后续分析</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </el-tab-pane>
     </el-tabs>
+    
+    <!-- 应用场景 -->
+    <div class="scenarios-section translucent-container mb-5">
+      <h2 class="section-title">应用场景</h2>
+      <div class="scenarios-grid">
+        <div class="scenario-card">
+          <h3>网络规划</h3>
+          <p class="description-text">合成数据可用于网络规划与覆盖预测，提升网络部署效率</p>
+        </div>
+        <div class="scenario-card">
+          <h3>信号分析</h3>
+          <p class="description-text">基于合成数据进行深入的信号特性分析，发现潜在问题</p>
+        </div>
+        <div class="scenario-card">
+          <h3>性能优化</h3>
+          <p class="description-text">利用高质量合成数据实现网络性能的精准评估与优化</p>
+        </div>
+        <div class="scenario-card">
+          <h3>干扰识别</h3>
+          <p class="description-text">通过合成数据分析检测并识别网络中的干扰源，提升通信质量</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import '@/assets/common-styles.css'
+import { getApiUrl } from '../../utils/api'
 
-// const baseUrl = 'http://192.168.43.139:9090'
-
-//我的热点
-
-const baseUrl = 'http://172.20.10.3:9090'
-
-//研究院 wifi
-
-// const baseUrl = 'http://172.30.130.165:9090'
+// 如需自定义基础 URL，取消注释下面这一行并修改
+const baseUrl = null  // 使用全局配置
+// const baseUrl = 'http://172.20.10.3:9090'  // 自定义 URL
 
 // 上传 URL
-const airspaceUploadUrl = `${baseUrl}/api/beam/airspace/compound-data`
-const timeUploadUrl = `${baseUrl}/api/beam/time/compound-data`
+const airspaceUploadUrl = getApiUrl('/api/beam/airspace/compound-data', baseUrl)
+const timeUploadUrl = getApiUrl('/api/beam/time/compound-data', baseUrl)
 
 // Tab 激活状态
 const activeTab = ref('airspace')
@@ -260,17 +389,4 @@ const handleTimeDownload = async () => {
 </script>
 
 <style scoped>
-.beam-container {
-  max-width: 800px;
-  margin: 20px auto;
-}
-
-.mb-4 {
-  margin-bottom: 16px;
-}
-
-.mt-3 {
-  margin-top: 12px;
-}
 </style>
-

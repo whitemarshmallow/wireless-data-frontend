@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
 import mitt from "mitt";
+import { getApiUrl } from "../utils/api";
+
+// 如需修改，只需取消注释下面这一行并提供新的 URL
+const baseUrl = null; // 使用 null 表示使用全局配置
+// const baseUrl = 'http://....com'  // 取消注释并修改此行以自定义 API URL
 
 //事件发射器
 export const emitter = mitt();
@@ -165,21 +170,21 @@ export const useNetworkDataProcessStore = defineStore("networkDataProcess", {
           downloadParams: this.downloadParams,
         };
 
-        // const baseUrl = "http://127.0.0.1:4523/m1/5785836-5470237-default";
-
-
-        //研究院IP
-
-        const baseUrl = "http://172.30.130.46:9090";
+        console.log("请求参数准备完成：", requestParams);
 
         // 调用图像生成API
-        const response = await fetch(`${baseUrl}/api/assistant/image`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestParams),
-        });
+        const response = await fetch(
+          getApiUrl("/api/assistant/image", baseUrl),
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestParams),
+          }
+        );
+
+        console.log("收到返回参数：", response);
 
         if (!response.ok) {
           throw new Error(`图像生成失败: ${response.statusText}`);
@@ -230,22 +235,20 @@ export const useNetworkDataProcessStore = defineStore("networkDataProcess", {
       this.addUserMessage(userMessage);
 
       try {
-        const baseUrl = "http://127.0.0.1:4523/m1/5785836-5470237-default";
-
         console.log("发起模型分析请求:", {
-          message: "分析已选择的数据和图像",
+          message: userMessage,
           context: this.getContextData(),
           modelOptions: this.modelConfig,
         });
 
         // 实际调用API进行分析
-        const response = await fetch(`${baseUrl}/api/assistant`, {
+        const response = await fetch(getApiUrl("/api/assistant", baseUrl), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            message: "分析已选择的数据和图像", // 默认分析消息
+            message: userMessage, // 用户消息
             context: this.getContextData(),
             modelOptions: this.modelConfig,
           }),

@@ -86,16 +86,12 @@
 <script setup>
 import { ref, reactive, computed,defineEmits,defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
+import '@/assets/common-styles.css'
+import { getApiUrl } from '../../../utils/api'
 
-// const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
-
-//研究院IP
-
-// const baseUrl = "http://172.30.130.46:9090";
-
-//我的热点
-
-const baseUrl = "http://172.20.10.3:9090";
+// 如需自定义基础 URL，取消注释下面这一行并修改
+const baseUrl = null  // 使用全局配置
+// const baseUrl = 'http://...'  // 自定义 URL
 
 defineProps({
   inChatMode: {
@@ -184,7 +180,7 @@ const handleDownload = async () => {
   }
 
   try {
-    const response = await fetch(`${baseUrl}/api/download-data`, {
+    const response = await fetch(getApiUrl('/api/download-data', baseUrl), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -223,22 +219,8 @@ const handleDownload = async () => {
 </script>
 
 <style scoped>
-.download-container {
+.download-container{
   max-width: 800px;
   margin: 20px auto;
-}
-
-.download-result {
-  margin-top: 20px;
-}
-
-.download-container.in-chat-mode {
-  width: 550px;
-  margin: 0;
-  box-shadow: none;
-}
-
-.el-form-item__label{
-  justify-content: left;
 }
 </style>

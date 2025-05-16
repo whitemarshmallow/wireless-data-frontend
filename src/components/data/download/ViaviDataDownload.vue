@@ -49,7 +49,7 @@
           </el-col>
         </el-row>
         <el-alert
-          title="范围示例：1739505002000 至 1739505459000，单位：ms"
+          title="范围示例：1739758277000 至 1739758877000，单位：ms"
           type="info"
           :closable="false"
           show-icon
@@ -84,16 +84,11 @@
 <script setup>
 import { ref, reactive, computed,defineEmits,defineProps } from 'vue'
 import { ElMessage } from 'element-plus'
+import { getApiUrl } from '../../../utils/api'
 
-// const baseUrl = 'http://127.0.0.1:4523/m1/5785836-5470237-default'
-
-//研究院IP
-
-  // const baseUrl = "http://172.30.130.46:9090";
-
-//我的热点
-
-  const baseUrl = "http://172.20.10.3:9090";
+// 如需修改，只需取消注释下面这一行并提供新的 URL
+const baseUrl = null // 使用 null 表示使用全局配置
+// const baseUrl = 'http://...'  // 取消注释并修改此行以自定义 API URL
 
 defineProps({
   inChatMode:{
@@ -168,8 +163,8 @@ const handleDownload = async () => {
   }
   
 
-  try {
-    const response = await fetch(`${baseUrl}/api/download-viaviData`, {
+  try {    
+    const response = await fetch(getApiUrl('/api/download-viaviData',baseUrl), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

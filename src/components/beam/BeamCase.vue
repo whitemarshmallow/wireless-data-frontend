@@ -119,24 +119,14 @@
 <script setup>
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
+import { getApiUrl } from '../../utils/api'
 
-//芷涵热点IP
-// const baseUrl = 'http://192.168.43.139:9090'
-
-//本机IP
-// const baseUrl = 'http://localhost:9090'
-
-//我的热点IP
-const baseUrl ='http://172.20.10.3:9090'
-
-//研究院wifi IP,每次关机会换
-
-// const baseUrl ='http://172.30.130.141:9090'
-
+const baseUrl =null   // 使用全局配置
+// const baseUrl = 'http://172.20.10.3:9090'  // 自定义 URL
 
 // 上传 URL
-const airspaceUploadUrl = `${baseUrl}/api/beam/airspace/process-data`
-const timeUploadUrl = `${baseUrl}/api/beam/time/process-data`
+const airspaceUploadUrl = getApiUrl('/api/beam/airspace/process-data', baseUrl)
+const timeUploadUrl = getApiUrl('/api/beam/time/process-data', baseUrl)
 
 // Tab 激活状态
 const activeTab = ref('airspace')

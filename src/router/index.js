@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import HomePage from "../views/HomePage.vue";
 
 // 导入组件
 import DataUpload from "../components/data/upload/DataUpload.vue";
@@ -17,7 +18,8 @@ import ContactUs from "../components/service/ContactUs.vue";
 const routes = [
   {
     path: "/",
-    redirect: "/upload", // 默认重定向到上传页面
+    name: "Home",
+    component: HomePage, // 将根路径指向Home组件
   },
   {
     path: "/upload",
