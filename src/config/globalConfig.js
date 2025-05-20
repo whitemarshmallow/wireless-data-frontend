@@ -2,6 +2,6 @@
 export default {
   // 全局 API 基础 URL
   // baseUrl: "http://127.0.0.1:4523/m1/5785836-5470237-default",
-  baseUrl: "http://172.30.130.118:5000",
+  baseUrl: "http://172.30.130.120:5000",
   // baseUrl: "http://127.0.0.1:5000",
 };

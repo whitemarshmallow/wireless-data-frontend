@@ -194,8 +194,12 @@ export const useNetworkDataProcessStore = defineStore("networkDataProcess", {
         const data = await response.json();
 
         // 存储返回的图像数据
-        this.generatedImages = data.images || [];
-
+        // this.generatedImages = data.images || [];
+         this.generatedImages = (data.images || []).map(img => ({
+             ...img,
+             // 把  /images/xx.png  →  http://172.30.130.120:5000/images/xx.png
+             url: getApiUrl(img.url, baseUrl),
+           }));
         // 删除加载消息
         if (this.messages.length > loadingMessageIndex) {
           this.messages.splice(loadingMessageIndex, 1);
